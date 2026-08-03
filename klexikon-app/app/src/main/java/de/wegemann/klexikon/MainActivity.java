@@ -31,6 +31,7 @@ import java.util.Locale;
 public class MainActivity extends Activity {
     private static final String HOME = "https://klexikon.zum.de/wiki/Hauptseite";
     private static final String HOST = "klexikon.zum.de";
+    private static final String MEDIA_HOST = "upload.wikimedia.org";
     private WebView webView;
     private ProgressBar progress;
     private EditText search;
@@ -141,6 +142,12 @@ public class MainActivity extends Activity {
                 && HOST.equalsIgnoreCase(uri.getHost());
     }
 
+    private boolean isAllowedResource(Uri uri) {
+        if (uri == null || !"https".equalsIgnoreCase(uri.getScheme())) return false;
+        String host = uri.getHost();
+        return HOST.equalsIgnoreCase(host) || MEDIA_HOST.equalsIgnoreCase(host);
+    }
+
     private void goBack() {
         if (webView.canGoBack()) webView.goBack(); else webView.loadUrl(HOME);
     }
@@ -161,7 +168,7 @@ public class MainActivity extends Activity {
         }
 
         @Override public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-            if (!isKlexikon(request.getUrl())) {
+            if (!isAllowedResource(request.getUrl())) {
                 return new WebResourceResponse("text/plain", "UTF-8", 403, "Blocked",
                         java.util.Collections.emptyMap(),
                         new ByteArrayInputStream(new byte[0]));

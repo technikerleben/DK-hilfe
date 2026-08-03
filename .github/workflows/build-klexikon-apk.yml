@@ -1,0 +1,41 @@
+name: Build Klexikon APK
+
+on:
+  push:
+    branches:
+      - build/klexikon-app
+    paths:
+      - 'klexikon-app/**'
+      - '.github/workflows/build-klexikon-apk.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.11.1'
+      - name: Build release APK
+        working-directory: klexikon-app
+        run: gradle --no-daemon :app:assembleRelease
+      - name: Verify APK
+        run: test -s klexikon-app/app/build/outputs/apk/release/app-release.apk
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Klexikon-APK
+          path: klexikon-app/app/build/outputs/apk/release/app-release.apk
+          if-no-files-found: error
+          retention-days: 7

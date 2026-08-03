@@ -31,13 +31,13 @@ jobs:
         working-directory: klexikon-app
         run: gradle --no-daemon :app:assembleDebug
       - name: Prepare download
-        run: cp klexikon-app/app/build/outputs/apk/debug/app-debug.apk Klexikon-1.0.0.apk
+        run: cp klexikon-app/app/build/outputs/apk/debug/app-debug.apk Klexikon-1.0.1.apk
       - name: Verify APK
-        run: test -s Klexikon-1.0.0.apk
+        run: test -s Klexikon-1.0.1.apk
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: Klexikon-APK
-          path: Klexikon-1.0.0.apk
+          path: Klexikon-1.0.1.apk
           if-no-files-found: error
           retention-days: 7

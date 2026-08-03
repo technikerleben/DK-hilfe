@@ -1,8 +1,9 @@
 # Klexikon-App für Android
 
 Eine bewusst eingeschränkte WebView-App für Kinder. Sie öffnet ausschließlich
-`https://klexikon.zum.de/` und blockiert fremde Navigationen sowie fremde
-Netzwerkressourcen, Downloads, Pop-ups, Datei- und Inhaltszugriffe.
+`https://klexikon.zum.de/` und blockiert fremde Navigationen, Downloads,
+Pop-ups, Datei- und Inhaltszugriffe. Medien von `upload.wikimedia.org` sind
+als reine Seitenressourcen erlaubt, damit Bilder aus Wikimedia Commons laden.
 
 ## Build
 
